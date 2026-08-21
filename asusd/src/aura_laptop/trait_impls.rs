@@ -348,6 +348,10 @@ impl Reloadable for AuraZbus {
             .await
             .map_err(|err| warn!("{err}"))
             .ok();
+        debug!("reloading brightness");
+        if let Err(e) = self.0.set_brightness(config.brightness.into()).await {
+            warn!("Could not restore keyboard backlight brightness: {e}");
+        }
         Ok(())
     }
 }
